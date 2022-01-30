@@ -144,7 +144,7 @@ export default function Home({ country }) {
                   px: 3,
                   py: 0.8,
                   borderRadius: "5px",
-                  backgroundColor: "grey.500",
+                  border: '1px solid black',
                 }}
                 inputProps={{
                   placeholder: "Search for a country",
@@ -163,8 +163,7 @@ export default function Home({ country }) {
                 labelId="select-region"
                 id="select-region"
                 value={filter}
-                fullWidth
-                variant="filled"
+                fullWidth                
                 label="Filter by Region"
                 onChange={(e) => {
                   setFilter(e.target.value);

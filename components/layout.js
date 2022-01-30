@@ -26,7 +26,7 @@ const Layout = ({children}) => {
                   <a>Where in World?</a>
               </Link>
           </Typography>
-          <Typography variant="body1">Dark Mode</Typography>
+          
         </Grid>
       </Box>
 

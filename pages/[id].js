@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 import { Box, Grid, Typography } from "@mui/material";
 
 const CountyPage = ({ country }) => {
+  console.log(country);
   let router = useRouter();
   let {
     name = "It seems a name was not provided",
@@ -17,16 +18,15 @@ const CountyPage = ({ country }) => {
     capital = "It seems the capital was not specified",
     tld = "It seems a Top level domain was not specified",
     languages = "It seem no languages was specified",
-    flags = "It seems no flags was not specified",
+    flags = false,
     currencies = "It seems no currency was not specified",
-  } = country;
+  } = country[0];
+
   let currencyArray = [];
 
-  for (let currency in currencies) {
-    console.log(currency);
+  for (let currency in currencies) {    
     currencyArray.push(currency);
   }
-  console.log(currencyArray);
 
   return (
     <>
@@ -59,40 +59,50 @@ const CountyPage = ({ country }) => {
             <Box
               component="div"
               className="image-container"
-              sx={{ width: "100%", height: "40vh", position: "relative" }}
+              sx={{
+                width: "100%",
+                height: "40vh",
+                position: "relative",
+                backgroundColor: "grey.400",
+                borderRadius: '10px'
+              }}
             >
-              <Image src={flags.svg} layout="fill" alt="" />
+              {flags === false ? (
+                "no image present"
+              ) : (
+                <Image src={flags.svg} className="countryFlag" layout="fill" alt="" />
+              )}
             </Box>
           </Grid>
 
           <Grid item container phone={12} tabletxl={6} sx={{ p: 5, pr: 0 }}>
             <Typography variant="h1">{}</Typography>
             <Grid item phone={12} tqbletxl={6}>
-              <Typography variant="h2" sx={{ color: "grey.900" }}>
+              <Typography variant="h2" sx={{ color: "grey.900", my: 1 }}>
                 Native Name:
                 <Box component="b" sx={{ ml: 1 }}>
                   {name.common}
                 </Box>
               </Typography>
-              <Typography variant="h2" sx={{ color: "grey.900" }}>
+              <Typography variant="h2" sx={{ color: "grey.900", my: 1 }}>
                 Population:{" "}
                 <Box component="b" sx={{ ml: 1 }}>
                   {population}
                 </Box>
               </Typography>
-              <Typography variant="h2" sx={{ color: "grey.900" }}>
+              <Typography variant="h2" sx={{ color: "grey.900", my: 1 }}>
                 Region:{" "}
                 <Box component="b" sx={{ ml: 1 }}>
                   {region}
                 </Box>
               </Typography>
-              <Typography variant="h2" sx={{ color: "grey.900" }}>
+              <Typography variant="h2" sx={{ color: "grey.900", my: 1 }}>
                 Sub Region:{" "}
                 <Box component="b" sx={{ ml: 1 }}>
                   {subregion}
                 </Box>
               </Typography>
-              <Typography variant="h2" sx={{ color: "grey.900" }}>
+              <Typography variant="h2" sx={{ color: "grey.900", my: 1 }}>
                 Capital:{" "}
                 <Box component="b" sx={{ ml: 1 }}>
                   {capital[0] || ""}
@@ -100,13 +110,13 @@ const CountyPage = ({ country }) => {
               </Typography>
             </Grid>
             <Grid item phone={12} tabletxl={6}>
-              <Typography variant="h2" sx={{ color: "grey.900" }}>
+              <Typography variant="h2" sx={{ color: "grey.900", my: 1 }}>
                 Top Level Domain:{" "}
                 <Box component="b" sx={{ ml: 1 }}>
                   {tld[0]}
                 </Box>
               </Typography>
-              <Typography variant="h2" sx={{ color: "grey.900" }}>
+              <Typography variant="h2" sx={{ color: "grey.900", my: 1 }}>
                 Currencies:{" "}
                 {currencyArray.map((currency, index) => (
                   <Box
@@ -117,7 +127,7 @@ const CountyPage = ({ country }) => {
                   </Box>
                 ))}
               </Typography>
-              <Typography variant="h2" sx={{ color: "grey.900" }}>
+              <Typography variant="h2" sx={{ color: "grey.900", my: 1 }}>
                 Languages:{" "}
                 <Box component="b" sx={{ ml: 1 }}>
                   {languages[0]}
@@ -133,19 +143,12 @@ const CountyPage = ({ country }) => {
 
 export async function getStaticPaths() {
   let api = "https://restcountries.com/v3.1/all";
-  let paths = [];
 
-  try {
-    let res = await fetch(api);
-    let data = await res.json();
-    let url = data.map((country) => {
-      //console.log(country.name || 'null');
-      return { params: { id: country.name.official } };
-    });
-    paths = url;
-  } catch (error) {
-    console.log(error, "error");
-  }
+  let res = await fetch(api);
+  let data = await res.json();
+  let paths = data.map((country) => {
+    return { params: { id: country.name.official } };
+  });
 
   return {
     paths,
@@ -169,4 +172,3 @@ export async function getStaticProps({ params }) {
 }
 
 export default CountyPage;
-

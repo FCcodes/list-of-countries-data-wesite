@@ -18,5 +18,5 @@ a {
 .countryFlag {
   object-fit: cover;
   object-position: center;
-  border-top: 10px;  
+  border-radius: 10px;
 }

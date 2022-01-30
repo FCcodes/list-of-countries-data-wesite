@@ -17,20 +17,21 @@ const Country = ({ image, country, population, region, capital }) => {
       <Grid item phone={12} tabletxl={6} sx={{ p: 2 }}>
         <Paper
           component="article"
-          elevation={0}
+          elevation={1}
           sx={{
             pb: 1,
             mx: "auto",
             width: { phone: "50%", tabletxl: "70%" },
             maxWidth: { tabletxl: "300px" },
+            borderRadius: '10px',
           }}
         >
           <Box
             container="div"
             className="image-container"
-            sx={{ width: "100", height: "20vh", position: "relative" }}
+            sx={{ width: "100", height: "20vh", position: "relative", borderRadius: '10px' }}
           >
-            <Image src={image} className="countryFlag" layout="fill" alt="" />
+            <Image src={image} id="countryFlag" layout="fill" alt="" />
           </Box>
 
           <Typography
